@@ -32,7 +32,7 @@ class PlayState extends FlxState
 		var shooting2: Bool;
 		var healthdisplay1:FlxText;
 		var healthdisplay2:FlxText;
-		var GameOver:FlxText;
+		var gameOver:FlxText;
 		var leftWall:FlxSprite;
 		var rightWall:FlxSprite;
 		var topWall:FlxSprite;
@@ -56,26 +56,6 @@ class PlayState extends FlxState
 		
 		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ healthofPlayer2);
 		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
-
-		GameOver=new FlxText(0,FlxG.height/2-50, FlxG.width, "LETS \n DO \n IT \n AGAIN");
-		GameOver.setFormat(null,50, FlxColor.RED,"center");
-		GameOver.visible = false;
-		
-
-		player1Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER1 is the WINNER ");
-		player1Winner.setFormat(null,50, FlxColor.GREEN,"center");
-		player1Winner.visible = false;
-		
-
-		player2Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER2 is the WINNER ");
-		player2Winner.setFormat(null,50, FlxColor.YELLOW,"center");
-		player2Winner.visible = false;
-		
-
-
-		blankscreen = new FlxSprite(0,0);
-		blankscreen.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		blankscreen.visible = false;
 		
 
 		shooting1=true;
@@ -88,25 +68,13 @@ class PlayState extends FlxState
  		mappingWalls.setTileProperties(2, ANY);
  		add(mappingWalls);
 
- 		player = new FlxSprite(20,20);
-        player.loadGraphic("assets/images/character1.png");//add image of our char1 here
+ 		player = new Player(20,20, FlxColor.BLUE, 1);
  		add(player);
 
- 		player2= new FlxSprite(580,50);
- 		player2.loadGraphic("assets/images/character2.png");//add image of our char2 here
+ 		player2= new Player(580,50, FlxColor.PINK);
  		add(player2);
- 		FlxG.camera.follow(player, TOPDOWN, 1);
+ 		//FlxG.camera.follow(player, TOPDOWN, 1);
  		map.loadEntities(placeEntities, "entities");
-
- 		bulletsofPlayer1 = new FlxSprite(FlxG.width/2-5, FlxG.height-30);
-		bulletsofPlayer1.makeGraphic(9, 2, FlxColor.PINK);
-		bulletsofPlayer1.visible = false;
-		add(bulletsofPlayer1);
-
-		bulletsofPlayer2 = new FlxSprite(FlxG.width/2-5, FlxG.height-30);
-		bulletsofPlayer2.makeGraphic(9, 2, FlxColor.BLUE);
-		bulletsofPlayer2.visible = false;
-		add(bulletsofPlayer2);
 
 
 		leftWall=new Wall(0,0,32,480);
@@ -119,10 +87,6 @@ class PlayState extends FlxState
 		add(bottomWall); 
 		add(healthdisplay2);
 		add(healthdisplay1);
-		add(blankscreen);
-		add(GameOver);
-		add(player1Winner);
-		add(player2Winner);
  	
 		super.create();
 	}
@@ -175,9 +139,7 @@ class PlayState extends FlxState
 
 		if (healthofPlayer2<=0 )
 		{
-			blankscreen.visible = true;
-			GameOver.visible = true;
-			player1Winner.visible= true;
+			endGame(1);
 			
 				new FlxTimer().start(2, function (timer)
 				{
@@ -190,9 +152,7 @@ class PlayState extends FlxState
 
 		if (healthofPlayer1<=0 )
 		{
-			blankscreen.visible = true;
-			GameOver.visible = true;
-			player2Winner.visible= true;
+			endGame(2);
 			
 				new FlxTimer().start(2, function (timer)
 				{
@@ -297,6 +257,29 @@ class PlayState extends FlxState
 		healthdisplay1.text="CHARACTER2: " + healthofPlayer1;
 
 
+	}
+
+	function endGame(winnerNum:Int)
+	{
+		gameOver=new FlxText(0,FlxG.height/2-50, FlxG.width, "LETS \n DO \n IT \n AGAIN");
+		gameOver.setFormat(null,50, FlxColor.RED,"center");
+		
+		blankscreen = new FlxSprite(0,0);
+		blankscreen.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+
+		player1Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER1 is the WINNER ");
+		player1Winner.setFormat(null,50, FlxColor.GREEN,"center");
+		
+	
+		player2Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER2 is the WINNER ");
+		player2Winner.setFormat(null,50, FlxColor.YELLOW,"center");
+
+		add(blankscreen);
+		add(gameOver);
+		add(player1Winner);
+		add(player2Winner);
+
+		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
 	}
 }
 
