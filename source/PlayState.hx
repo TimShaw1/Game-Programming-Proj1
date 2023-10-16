@@ -34,23 +34,25 @@ class PlayState extends FlxState
 		var topWall:FlxSprite;
 		var bottomWall:FlxSprite;
 		var blankscreen:FlxSprite;
-		var healthofPlayer1: Int;
-		var healthofPlayer2: Int;
 
 
 
 	override public function create():Void
 	{
+		player = new Player(20,20, FlxColor.BLUE, 1);
+ 		add(player);
+		add(player.bullet);
+
+ 		player2= new Player(580,50, FlxColor.PINK);
+ 		add(player2);
+		add(player2.bullet);
 		
 		//FlxG.sound.play("assets/sounds/sound1.wav",0.15,true); need to add sound1
-		healthofPlayer1=100;
-		healthofPlayer2=100;
-
-		healthdisplay1=new FlxText(0,0, FlxG.width, "CHARACTER1: "+ healthofPlayer1);
+		healthdisplay1=new FlxText(0,0, FlxG.width, "CHARACTER1: "+ player.pHealth);
 		healthdisplay1.setFormat(null,15, FlxColor.PINK,"left");
 		
 		
-		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ healthofPlayer2);
+		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ player2.pHealth);
 		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
 
 		map = new FlxOgmoLoader("assets/ogmo/Level1.oel");
@@ -60,11 +62,6 @@ class PlayState extends FlxState
  		mappingWalls.setTileProperties(2, ANY);
  		add(mappingWalls);
 
- 		player = new Player(20,20, FlxColor.BLUE, 1);
- 		add(player);
-
- 		player2= new Player(580,50, FlxColor.PINK);
- 		add(player2);
  		//FlxG.camera.follow(player, TOPDOWN, 1);
  		map.loadEntities(placeEntities, "entities");
 
@@ -129,7 +126,7 @@ class PlayState extends FlxState
 		player2.velocity.x=0;
 		player2.velocity.y=0;
 
-		if (healthofPlayer2<=0 )
+		if (player2.pHealth<=0 )
 		{
 			endGame(1);
 			
@@ -142,20 +139,14 @@ class PlayState extends FlxState
 		}
 
 
-		if (healthofPlayer1<=0 )
+		if (player.pHealth<=0 )
 		{
-			endGame(2);
-			
-				new FlxTimer().start(2, function (timer)
-				{
-					FlxG.switchState(new MenuState());
-				});
-			
+			endGame(2);	
 			
 		}
 
-		if(FlxG.keys.justReleased.ENTER && player2.shooting == true){
-			player2.shooting=false;
+		if(FlxG.keys.justReleased.ENTER && player2.shootingEnabled){
+			player2.shootingEnabled=false;
 			player2.bullet.visible=true;
 			player2.bullet.x = player2.x+player2.width/2;
 			player2.bullet.y = player2.y+player2.height/2;
@@ -173,8 +164,8 @@ class PlayState extends FlxState
 			}
 		}
 
-		if(FlxG.keys.justReleased.SPACE && player.shooting == true){
-			player.shooting=false;
+		if(FlxG.keys.justReleased.SPACE && player.shootingEnabled){
+			player.shootingEnabled=false;
 			
 			player.bullet.visible=true;
 			player.bullet.x = player.x+player.width/2;
@@ -224,27 +215,31 @@ class PlayState extends FlxState
 
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
 		Bullet.visible=false;
-		player.shooting=true;
+		player.shootingEnabled=true;
 	}
 
 	function BWall2(Bullet:FlxObject, Wall:FlxObject):Void{
 		Bullet.visible=false;
-		player2.shooting=true;
+		player2.shootingEnabled=true;
 		
 	}
 
-	function Hit(Bullet:FlxObject, Player:FlxObject):Void{
+	function Hit(Bullet:FlxObject, Player:FlxObject):Void {
+		if (!Bullet.visible)
+			return;
 		Bullet.visible=false;
-		player.shooting=true;
-		player2.health-=10;
-		healthdisplay2.text="CHARACTER1: " + player2.health;
+		player.shootingEnabled=true;
+		player2.pHealth-=10;
+		healthdisplay2.text="CHARACTER1: " + player2.pHealth;
 
 	}
-	function Hit2(Bullet:FlxObject, Player:FlxObject):Void{
+	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
+		if (!Bullet.visible)
+			return;
 		Bullet.visible=false;
-		player2.shooting=true;
-		player.health-=10;
-		healthdisplay1.text="CHARACTER2: " + player.health;
+		player2.shootingEnabled=true;
+		player.pHealth-=10;
+		healthdisplay1.text="CHARACTER2: " + player.pHealth;
 
 
 	}
@@ -270,6 +265,11 @@ class PlayState extends FlxState
 		add(player2Winner);
 
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
+
+		new FlxTimer().start(2, function (timer)
+			{
+				FlxG.switchState(new MenuState());
+			});
 	}
 }
 

@@ -8,7 +8,7 @@ class Player extends FlxSprite
 {
     public var pHealth:Int;
     public var bullet:FlxSprite;
-    public var shooting:Bool;
+    public var shootingEnabled:Bool;
 
     public function new(x:Float = 0, y:Float = 0, color:FlxColor = FlxColor.BLUE, playerNum:Int = 0)
     {
@@ -20,8 +20,8 @@ class Player extends FlxSprite
         // Set player attributes
         pHealth = 100;
         bullet = new FlxSprite(FlxG.width/2-5, FlxG.height-30);
-        bullet.makeGraphic(9, 2, color);
+        bullet.makeGraphic(9, 2, color, true);
         bullet.visible = false;
-        shooting = true;
+        shootingEnabled = true;
     }
 }
