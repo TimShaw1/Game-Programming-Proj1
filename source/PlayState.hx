@@ -55,12 +55,14 @@ class PlayState extends FlxState
 		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ player2.pHealth);
 		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
 
+		// Slow!
 		map = new FlxOgmoLoader("assets/ogmo/Level1.oel");
  		mappingWalls = map.loadTilemap("assets/images/walls1.png", 32, 32, "wall");//just a placeholder need to add a nice wall
  		mappingWalls.follow();
  		mappingWalls.setTileProperties(1, NONE);
  		mappingWalls.setTileProperties(2, ANY);
  		add(mappingWalls);
+		
 
  		//FlxG.camera.follow(player, TOPDOWN, 1);
  		map.loadEntities(placeEntities, "entities");
@@ -129,11 +131,6 @@ class PlayState extends FlxState
 		if (player2.pHealth<=0 )
 		{
 			endGame(1);
-			
-				new FlxTimer().start(2, function (timer)
-				{
-					FlxG.switchState(new MenuState());
-				});
 			
 			
 		}
@@ -246,6 +243,7 @@ class PlayState extends FlxState
 
 	function endGame(winnerNum:Int)
 	{
+		trace("Ended game");
 		gameOver=new FlxText(0,FlxG.height/2-50, FlxG.width, "LETS \n DO \n IT \n AGAIN");
 		gameOver.setFormat(null,50, FlxColor.RED,"center");
 		
@@ -265,6 +263,10 @@ class PlayState extends FlxState
 		add(player2Winner);
 
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
+
+		// Hack to fix lag
+		player.pHealth = 1;
+		player2.pHealth = 1;
 
 		new FlxTimer().start(2, function (timer)
 			{
