@@ -20,16 +20,12 @@ import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
-		var player: flixel.FlxSprite;
-		var player2: flixel.FlxSprite;
+		var player:Player;
+		var player2:Player;
 		var player1Winner:FlxText;
 		var player2Winner:FlxText;
-		var bulletsofPlayer1:FlxSprite;
-		var bulletsofPlayer2: FlxSprite;
 		var map: FlxOgmoLoader;
 		var mappingWalls: FlxTilemap;
-		var shooting1:Bool;
-		var shooting2: Bool;
 		var healthdisplay1:FlxText;
 		var healthdisplay2:FlxText;
 		var gameOver:FlxText;
@@ -56,10 +52,6 @@ class PlayState extends FlxState
 		
 		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ healthofPlayer2);
 		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
-		
-
-		shooting1=true;
-		shooting2=true;
 
 		map = new FlxOgmoLoader("assets/ogmo/Level1.oel");
  		mappingWalls = map.loadTilemap("assets/images/walls1.png", 32, 32, "wall");//just a placeholder need to add a nice wall
@@ -111,11 +103,11 @@ class PlayState extends FlxState
 		FlxG.collide(player,topWall);
 		FlxG.collide(player,bottomWall);
 
-		FlxG.collide(bulletsofPlayer1,mappingWalls, BWall);
-		FlxG.collide(bulletsofPlayer1,leftWall, BWall);
-		FlxG.collide(bulletsofPlayer1,rightWall, BWall);
-		FlxG.collide(bulletsofPlayer1,topWall, BWall);
-		FlxG.collide(bulletsofPlayer1,bottomWall, BWall);
+		FlxG.collide(player.bullet,mappingWalls, BWall);
+		FlxG.collide(player.bullet,leftWall, BWall);
+		FlxG.collide(player.bullet,rightWall, BWall);
+		FlxG.collide(player.bullet,topWall, BWall);
+		FlxG.collide(player.bullet,bottomWall, BWall);
 
 		FlxG.collide(player2,mappingWalls);
 		FlxG.collide(player2,leftWall);
@@ -123,14 +115,14 @@ class PlayState extends FlxState
 		FlxG.collide(player2,topWall);
 		FlxG.collide(player2,bottomWall);
 
-		FlxG.collide(bulletsofPlayer2,mappingWalls, BWall2);
-		FlxG.collide(bulletsofPlayer2,leftWall, BWall2);
-		FlxG.collide(bulletsofPlayer2,rightWall, BWall2);
-		FlxG.collide(bulletsofPlayer2,topWall, BWall2);
-		FlxG.collide(bulletsofPlayer2,bottomWall, BWall2);
+		FlxG.collide(player2.bullet,mappingWalls, BWall2);
+		FlxG.collide(player2.bullet,leftWall, BWall2);
+		FlxG.collide(player2.bullet,rightWall, BWall2);
+		FlxG.collide(player2.bullet,topWall, BWall2);
+		FlxG.collide(player2.bullet,bottomWall, BWall2);
 
-		FlxG.collide(bulletsofPlayer1, player2, Hit);
-		FlxG.collide(bulletsofPlayer2, player, Hit2);
+		FlxG.collide(player.bullet, player2, Hit);
+		FlxG.collide(player2.bullet, player, Hit2);
 
 		player.velocity.x=0;
 		player.velocity.y=0;
@@ -162,44 +154,42 @@ class PlayState extends FlxState
 			
 		}
 
-		if(FlxG.keys.justReleased.ENTER && shooting2 == true){
-			shooting2=false;
-			bulletsofPlayer2.exists=true;
-			bulletsofPlayer2.visible=true;
-			bulletsofPlayer2.x = player2.x+player2.width/2;
-			bulletsofPlayer2.y = player2.y+player2.height/2;
+		if(FlxG.keys.justReleased.ENTER && player2.shooting == true){
+			player2.shooting=false;
+			player2.bullet.visible=true;
+			player2.bullet.x = player2.x+player2.width/2;
+			player2.bullet.y = player2.y+player2.height/2;
 			var x = player2.x-player.x;
-			if(x<0){
-
-			bulletsofPlayer2.velocity.x= 1000;	
-			//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
-			x=1;
+			if (x < 0)
+			{
+				player2.bullet.velocity.x= 1000;	
+				//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
+				x=1;
 			}
-			else{
-			bulletsofPlayer2.velocity.x= -1000;
-			//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
-			x=-1;
+			else {
+				player2.bullet.velocity.x= -1000;
+				//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
+				x=-1;
 			}
 		}
 
-		if(FlxG.keys.justReleased.SPACE && shooting1 == true){
-			shooting1=false;
+		if(FlxG.keys.justReleased.SPACE && player.shooting == true){
+			player.shooting=false;
 			
-			bulletsofPlayer1.exists=true;
-			bulletsofPlayer1.visible=true;
-			bulletsofPlayer1.x = player.x+player.width/2;
-			bulletsofPlayer1.y = player.y+player.height/2;
+			player.bullet.visible=true;
+			player.bullet.x = player.x+player.width/2;
+			player.bullet.y = player.y+player.height/2;
 			var x = player2.x-player.x;
 			if(x>0){
 
-			bulletsofPlayer1.velocity.x= 1000;	
-			//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
-			x=-1;
+				player.bullet.velocity.x= 1000;	
+				//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
+				x=-1;
 			}
-			else{
-			bulletsofPlayer1.velocity.x= -1000;
-			//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
-			x=1;
+			else {
+				player.bullet.velocity.x= -1000;
+				//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
+				x=1;
 			}
 		}
 
@@ -233,28 +223,28 @@ class PlayState extends FlxState
 	}
 
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
-		Bullet.exists=false;
-		shooting1=true;
+		Bullet.visible=false;
+		player.shooting=true;
 	}
 
 	function BWall2(Bullet:FlxObject, Wall:FlxObject):Void{
-		Bullet.exists=false;
-		shooting2=true;
+		Bullet.visible=false;
+		player2.shooting=true;
 		
 	}
 
 	function Hit(Bullet:FlxObject, Player:FlxObject):Void{
-		Bullet.exists=false;
-		shooting1=true;
-		healthofPlayer2-=10;
-		healthdisplay2.text="CHARACTER1: " + healthofPlayer2;
+		Bullet.visible=false;
+		player.shooting=true;
+		player2.health-=10;
+		healthdisplay2.text="CHARACTER1: " + player2.health;
 
 	}
 	function Hit2(Bullet:FlxObject, Player:FlxObject):Void{
-		Bullet.exists=false;
-		shooting2=true;
-		healthofPlayer1-=10;
-		healthdisplay1.text="CHARACTER2: " + healthofPlayer1;
+		Bullet.visible=false;
+		player2.shooting=true;
+		player.health-=10;
+		healthdisplay1.text="CHARACTER2: " + player.health;
 
 
 	}
