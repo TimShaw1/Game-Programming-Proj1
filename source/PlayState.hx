@@ -2,6 +2,7 @@
 
 package;
 
+import neko.Random;
 import flixel.FlxState;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 import flixel.FlxSprite;
@@ -34,6 +35,9 @@ class PlayState extends FlxState
 		var topWall:FlxSprite;
 		var bottomWall:FlxSprite;
 		var blankscreen:FlxSprite;
+
+		var asteroid1:Asteroid = new Asteroid();
+		var asteroid2:Asteroid = new Asteroid();
 
 
 
@@ -77,6 +81,9 @@ class PlayState extends FlxState
 		add(bottomWall); 
 		add(healthdisplay2);
 		add(healthdisplay1);
+
+		add(spawn_asteroid(asteroid1));
+		add(spawn_asteroid(asteroid2));
  	
 		super.create();
 	}
@@ -271,6 +278,28 @@ class PlayState extends FlxState
 			{
 				FlxG.switchState(new MenuState());
 			});
+	}
+
+	// TODO: Collision
+	public function spawn_asteroid(asteroid:Asteroid):Asteroid
+	{
+		var x = Math.random() * FlxG.width;
+		var y = Math.random() < 0.5 ? -100 : FlxG.height + 100;
+		if (x > FlxG.width / 2)
+			x *= -1;
+
+		var xVel = Math.random() * 50 + 1;
+		var yVel = Math.random() * 50 + 1;
+		if (y > 0)
+			yVel *= -1;
+
+		asteroid.x = x;
+		asteroid.y = y;
+
+		asteroid.velocity.x = xVel;
+		asteroid.velocity.y = yVel;
+
+		return asteroid;
 	}
 }
 
