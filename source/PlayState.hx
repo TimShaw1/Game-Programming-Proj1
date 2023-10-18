@@ -43,7 +43,7 @@ class PlayState extends FlxState
  		add(player);
 		add(player.bullet);
 
- 		player2= new Player(580,50, FlxColor.PINK);
+ 		player2= new Player(580,50, FlxColor.PINK, 2);
  		add(player2);
 		add(player2.bullet);
 		
