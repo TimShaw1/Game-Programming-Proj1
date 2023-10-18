@@ -9,7 +9,7 @@ class Asteroid extends FlxSprite
         this.velocity.x = xVel;
         this.velocity.y = yVel;
 
-        this.angularVelocity = Math.atan(yVel/xVel);
+        this.angularVelocity = xVel;
 
         // this.loadGraphic("assets/images/asteroid.png");
     }
