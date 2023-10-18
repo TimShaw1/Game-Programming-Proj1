@@ -47,12 +47,11 @@ class PlayState extends FlxState
  		add(player2);
 		add(player2.bullet);
 		
-		//FlxG.sound.play("assets/sounds/sound1.wav",0.15,true); need to add sound1
-		healthdisplay1=new FlxText(0,0, FlxG.width, "CHARACTER1: "+ player.pHealth);
+		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player.pHealth);
 		healthdisplay1.setFormat(null,15, FlxColor.PINK,"left");
 		
 		
-		healthdisplay2=new FlxText(0,0, FlxG.width, "CHARACTER2: "+ player2.pHealth);
+		healthdisplay2 = new FlxText(0, 0, FlxG.width, "Player 2: " + player2.pHealth);
 		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
 
 		// Slow!
@@ -130,16 +129,15 @@ class PlayState extends FlxState
 
 		if (player2.pHealth<=0 )
 		{
+			FlxG.sound.play("assets/sounds/explosion.wav", 0.15, false);
 			endGame(1);
-			
-			
 		}
 
 
 		if (player.pHealth<=0 )
 		{
+			FlxG.sound.play("assets/sounds/explosion.wav", 0.15, false);
 			endGame(2);	
-			
 		}
 
 		if(FlxG.keys.justReleased.ENTER && player2.shootingEnabled){
@@ -151,12 +149,12 @@ class PlayState extends FlxState
 			if (x < 0)
 			{
 				player2.bullet.velocity.x= 1000;	
-				//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
 				x=1;
 			}
 			else {
 				player2.bullet.velocity.x= -1000;
-				//FlxG.sound.play("assets/sounds/sound1.wav",0.15,false); need to add sound2
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
 				x=-1;
 			}
 		}
@@ -171,12 +169,12 @@ class PlayState extends FlxState
 			if(x>0){
 
 				player.bullet.velocity.x= 1000;	
-				//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
 				x=-1;
 			}
 			else {
 				player.bullet.velocity.x= -1000;
-				//FlxG.sound.play("assets/sounds/sound2.wav",0.15,false); need to add a sound
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
 				x=1;
 			}
 		}
@@ -211,11 +209,13 @@ class PlayState extends FlxState
 	}
 
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
+		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
 		player.shootingEnabled=true;
 	}
 
 	function BWall2(Bullet:FlxObject, Wall:FlxObject):Void{
+		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
 		player2.shootingEnabled=true;
 		
@@ -224,6 +224,7 @@ class PlayState extends FlxState
 	function Hit(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
+		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
 		player.shootingEnabled=true;
 		player2.pHealth-=10;
@@ -233,6 +234,7 @@ class PlayState extends FlxState
 	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
+		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
 		player2.shootingEnabled=true;
 		player.pHealth-=10;
@@ -245,24 +247,21 @@ class PlayState extends FlxState
 	{
 		trace("Ended game");
 		gameOver=new FlxText(0,FlxG.height/2-50, FlxG.width, "LETS \n DO \n IT \n AGAIN");
-		gameOver.setFormat(null,50, FlxColor.RED,"center");
+		gameOver.setFormat(null, 50, FlxColor.YELLOW, "center");
 		
 		blankscreen = new FlxSprite(0,0);
 		blankscreen.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 
-		player1Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER1 is the WINNER ");
-		player1Winner.setFormat(null,50, FlxColor.GREEN,"center");
+		player1Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 1 is the WINNER ");
+		player1Winner.setFormat(null, 50, FlxColor.RED, "center");
 		
-	
-		player2Winner=new FlxText(0,FlxG.height/50, FlxG.width, "CHARACTER2 is the WINNER ");
-		player2Winner.setFormat(null,50, FlxColor.YELLOW,"center");
+		player2Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 2 is the WINNER ");
+		player2Winner.setFormat(null, 50, FlxColor.BLUE, "center");
 
 		add(blankscreen);
-		add(gameOver);
-		add(player1Winner);
-		add(player2Winner);
 
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
+		add(gameOver);
 
 		// Hack to fix lag
 		player.pHealth = 1;
