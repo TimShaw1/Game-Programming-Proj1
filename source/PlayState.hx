@@ -194,9 +194,11 @@ class PlayState extends FlxState
 
 		if(FlxG.keys.anyPressed(["D"])){
 			player.velocity.x=100;
+			player.facing = RIGHT;
 		}
 		if(FlxG.keys.anyPressed(["A"])){
 			player.velocity.x=-100;
+			player.facing = LEFT;
 		}
 		if(FlxG.keys.anyPressed(["W"])){
 			player.velocity.y= -100;
@@ -207,9 +209,11 @@ class PlayState extends FlxState
 		}
 		if(FlxG.keys.anyPressed(["RIGHT"])){
 			player2.velocity.x=100;
+			player2.facing = RIGHT;
 		}
 		if(FlxG.keys.anyPressed(["LEFT"])){
 			player2.velocity.x=-100;
+			player2.facing = LEFT;
 		}
 		if(FlxG.keys.anyPressed(["UP"])){
 			player2.velocity.y= -100;

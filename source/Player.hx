@@ -24,5 +24,17 @@ class Player extends FlxSprite {
 		bullet.makeGraphic(9, 2, FlxColor.WHITE, true);
 		bullet.visible = false;
 		shootingEnabled = true;
+
+		this.setFacingFlip(RIGHT, false, false);
+		this.setFacingFlip(LEFT, true, false);
+
+		if (playerNum == 2)
+		{
+			this.facing = LEFT;
+		}
+		else
+		{
+			this.facing = RIGHT;
+		}
 	}
 }
