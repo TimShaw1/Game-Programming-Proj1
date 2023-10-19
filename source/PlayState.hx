@@ -258,24 +258,23 @@ class PlayState extends FlxState
 	function endGame(winnerNum:Int)
 	{
 		trace("Ended game");
-		gameOver=new FlxText(0,FlxG.height/2-50, FlxG.width, "LETS \n DO \n IT \n AGAIN");
-		gameOver.setFormat(null, 50, FlxColor.YELLOW, "center");
-		
-		blankscreen = new FlxSprite(0,0);
-		blankscreen.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 
-		player1Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 1 is the WINNER ");
+		blankscreen = new FlxSprite(0, 0);
+
+		blankscreen.loadGraphic("assets/images/background.png");
+
+		player1Winner = new FlxText(0, "Player 1 Wins!");
+		player1Winner.screenCenter();
 		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
-		
-		player2Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 2 is the WINNER ");
+
+		player2Winner = new FlxText(0, "Player 2 Wins!");
+		player1Winner.screenCenter();
 		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
 
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
-		add(gameOver);
 
-		// Hack to fix lag
 		player.pHealth = 1;
 		player2.pHealth = 1;
 
