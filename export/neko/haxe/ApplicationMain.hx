@@ -35,10 +35,10 @@ class ApplicationMain
 		ManifestResources.init(config);
 		#end
 
-		app.meta["build"] = "155";
+		app.meta["build"] = "162";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "TheGame";
-		app.meta["name"] = "TheGame";
+		app.meta["name"] = "Space-Wars";
 		app.meta["packageName"] = "com.example.myapp";
 		app.meta["version"] = "0.0.1";
 
@@ -60,7 +60,7 @@ class ApplicationMain
 			minimized: false,
 			parameters: {},
 			resizable: true,
-			title: "TheGame",
+			title: "Space-Wars",
 			width: 640,
 			x: null,
 			y: null,

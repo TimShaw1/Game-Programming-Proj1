@@ -8,6 +8,7 @@ class Player extends FlxSprite {
 	public var pHealth:Int;
 	public var bullet:FlxSprite;
 	public var shootingEnabled:Bool;
+	public var speed = 1;
 
 	public function new(x:Float = 0, y:Float = 0, color:FlxColor = FlxColor.BLUE, playerNum:Int = 0) {
 		super(x, y);
@@ -25,6 +26,8 @@ class Player extends FlxSprite {
 		bullet.visible = false;
 		shootingEnabled = true;
 
+		this.allowCollisions = ANY;
+
 		this.setFacingFlip(RIGHT, false, false);
 		this.setFacingFlip(LEFT, true, false);
 
@@ -38,21 +41,28 @@ class Player extends FlxSprite {
 		}
 	}
 
-	public function shoot()
-		{
-			this.shootingEnabled=false;
-			
-			this.bullet.visible=true;
-			this.bullet.x = this.x+this.width/2;
-			this.bullet.y = this.y+this.height/2;
-			if(this.facing == RIGHT) {
+	public function apply_velocity(xVel, yVel)
+	{
+		if (xVel != 0)
+			this.velocity.x = xVel * speed;
+		if (yVel != 0)
+			this.velocity.y = yVel * speed;
+	}
 
+	public function shoot()
+	{
+		this.shootingEnabled=false;
+		
+		this.bullet.visible=true;
+		this.bullet.x = this.x+this.width/2;
+		this.bullet.y = this.y+this.height/2;
+		if(this.facing == RIGHT) {
 				this.bullet.velocity.x= 1000;	
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-			}
-			else {
-				this.bullet.velocity.x= -1000;
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-			}
+			FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
 		}
+		else {
+			this.bullet.velocity.x= -1000;
+			FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
+		}
+	}
 }

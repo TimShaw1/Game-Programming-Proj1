@@ -184,34 +184,34 @@ class PlayState extends FlxState
 		}
 
 		if(FlxG.keys.anyPressed(["D"])){
-			player1.velocity.x=100;
+			player1.apply_velocity(100, 0);
 			player1.facing = RIGHT;
 		}
 		if(FlxG.keys.anyPressed(["A"])){
-			player1.velocity.x=-100;
+			player1.apply_velocity(-100, 0);
 			player1.facing = LEFT;
 		}
 		if(FlxG.keys.anyPressed(["W"])){
-			player1.velocity.y= -100;
+			player1.apply_velocity(0, -100);
 
 		}
 		if(FlxG.keys.anyPressed(["S"])){
-			player1.velocity.y= 100;
+			player1.apply_velocity(0, 100);
 		}
 		if(FlxG.keys.anyPressed(["RIGHT"])){
-			player2.velocity.x=100;
+			player2.apply_velocity(100, 0);
 			player2.facing = RIGHT;
 		}
 		if(FlxG.keys.anyPressed(["LEFT"])){
-			player2.velocity.x=-100;
+			player2.apply_velocity(-100, 0);
 			player2.facing = LEFT;
 		}
 		if(FlxG.keys.anyPressed(["UP"])){
-			player2.velocity.y= -100;
+			player2.apply_velocity(0, -100);
 
 		}
 		if(FlxG.keys.anyPressed(["DOWN"])){
-			player2.velocity.y= 100;
+			player2.apply_velocity(0, 100);
 		}
 
 		if (Math.abs(asteroid1.x) > 1200 || Math.abs(asteroid1.y) > 1200)
@@ -246,6 +246,8 @@ class PlayState extends FlxState
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
+		Bullet.x = -1000;
+		Bullet.y = -1000;
 		player1.shootingEnabled=true;
 		player2.pHealth-=10;
 		update_health_displays();
@@ -256,6 +258,8 @@ class PlayState extends FlxState
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
+		Bullet.x = -1000;
+		Bullet.y = -1000;
 		player2.shootingEnabled=true;
 		player1.pHealth-=10;
 		update_health_displays();
@@ -302,7 +306,6 @@ class PlayState extends FlxState
 			});
 	}
 
-	// TODO: Collision
 	public function spawn_asteroid(asteroid:Asteroid):Asteroid
 	{
 		asteroid.set_up();
