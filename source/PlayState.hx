@@ -152,9 +152,9 @@ class PlayState extends FlxState
 		FlxG.collide(asteroid1, player2, Asteroid_Collsion);
 		FlxG.collide(asteroid2, player2, Asteroid_Collsion);
 
-		FlxG.collide(player, powerUp, onPowerUpCollision);
+		FlxG.collide(player1, powerUp, onPowerUpCollision);
                 FlxG.collide(player2, powerUp, onPowerUpCollision);
-		FlxG.collide(player, powerUps, onPowerUpCollision);
+		FlxG.collide(player1, powerUps, onPowerUpCollision);
                 FlxG.collide(player2, powerUps, onPowerUpCollision);
 
 		player1.velocity.x=0;
@@ -319,7 +319,7 @@ class PlayState extends FlxState
 		playerObj.pHealth += 10;  
 	
 		// upadte health
-		if(playerObj == this.player) {
+		if(playerObj == this.player1) {
 			healthdisplay1.text = "Player 1: " + playerObj.pHealth;
 		} else {
 			healthdisplay2.text = "Player 2: " + playerObj.pHealth;
