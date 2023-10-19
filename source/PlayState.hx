@@ -22,7 +22,7 @@ import flixel.util.FlxTimer;
 
 class PlayState extends FlxState
 {
-		var player:Player;
+		var player1:Player;
 		var player2:Player;
 		var player1Winner:FlxText;
 		var player2Winner:FlxText;
@@ -47,15 +47,15 @@ class PlayState extends FlxState
 
 		add(background);
 		
-		player = new Player(20,20, FlxColor.BLUE, 1);
- 		add(player);
-		add(player.bullet);
+		player1 = new Player(20,20, FlxColor.BLUE, 1);
+ 		add(player1);
+		add(player1.bullet);
 
  		player2= new Player(580,50, FlxColor.PINK, 2);
  		add(player2);
 		add(player2.bullet);
 		
-		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player.pHealth);
+		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player1.pHealth);
 		healthdisplay1.setFormat(null,15, FlxColor.WHITE,"left");
 		
 		
@@ -98,27 +98,27 @@ class PlayState extends FlxState
  	{
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
-		if (entityName == "player")
+		if (entityName == "player1")
 		{
-			player.x = x;
-			player.y = y;
+			player1.x = x;
+			player1.y = y;
 		}
  	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-		FlxG.collide(player,mappingWalls);
-		FlxG.collide(player,leftWall);
-		FlxG.collide(player,rightWall);
-		FlxG.collide(player,topWall);
-		FlxG.collide(player,bottomWall);
+		FlxG.collide(player1,mappingWalls);
+		FlxG.collide(player1,leftWall);
+		FlxG.collide(player1,rightWall);
+		FlxG.collide(player1,topWall);
+		FlxG.collide(player1,bottomWall);
 
-		FlxG.collide(player.bullet,mappingWalls, BWall);
-		FlxG.collide(player.bullet,leftWall, BWall);
-		FlxG.collide(player.bullet,rightWall, BWall);
-		FlxG.collide(player.bullet,topWall, BWall);
-		FlxG.collide(player.bullet,bottomWall, BWall);
+		FlxG.collide(player1.bullet,mappingWalls, BWall);
+		FlxG.collide(player1.bullet,leftWall, BWall);
+		FlxG.collide(player1.bullet,rightWall, BWall);
+		FlxG.collide(player1.bullet,topWall, BWall);
+		FlxG.collide(player1.bullet,bottomWall, BWall);
 
 		FlxG.collide(player2,mappingWalls);
 		FlxG.collide(player2,leftWall);
@@ -132,11 +132,11 @@ class PlayState extends FlxState
 		FlxG.collide(player2.bullet,topWall, BWall2);
 		FlxG.collide(player2.bullet,bottomWall, BWall2);
 
-		FlxG.collide(player.bullet, player2, Hit);
-		FlxG.collide(player2.bullet, player, Hit2);
+		FlxG.collide(player1.bullet, player2, Hit);
+		FlxG.collide(player2.bullet, player1, Hit2);
 
-		player.velocity.x=0;
-		player.velocity.y=0;
+		player1.velocity.x=0;
+		player1.velocity.y=0;
 		player2.velocity.x=0;
 		player2.velocity.y=0;
 
@@ -147,7 +147,7 @@ class PlayState extends FlxState
 		}
 
 
-		if (player.pHealth<=0 )
+		if (player1.pHealth<=0 )
 		{
 			FlxG.sound.play("assets/sounds/explosion.wav", 0.15, false);
 			endGame(2);	
@@ -157,24 +157,24 @@ class PlayState extends FlxState
 			player2.shoot();
 		}
 
-		if(FlxG.keys.justReleased.SPACE && player.shootingEnabled){
-			player.shoot();
+		if(FlxG.keys.justReleased.SPACE && player1.shootingEnabled){
+			player1.shoot();
 		}
 
 		if(FlxG.keys.anyPressed(["D"])){
-			player.velocity.x=100;
-			player.facing = RIGHT;
+			player1.velocity.x=100;
+			player1.facing = RIGHT;
 		}
 		if(FlxG.keys.anyPressed(["A"])){
-			player.velocity.x=-100;
-			player.facing = LEFT;
+			player1.velocity.x=-100;
+			player1.facing = LEFT;
 		}
 		if(FlxG.keys.anyPressed(["W"])){
-			player.velocity.y= -100;
+			player1.velocity.y= -100;
 
 		}
 		if(FlxG.keys.anyPressed(["S"])){
-			player.velocity.y= 100;
+			player1.velocity.y= 100;
 		}
 		if(FlxG.keys.anyPressed(["RIGHT"])){
 			player2.velocity.x=100;
@@ -197,7 +197,7 @@ class PlayState extends FlxState
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
 		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
-		player.shootingEnabled=true;
+		player1.shootingEnabled=true;
 	}
 
 	function BWall2(Bullet:FlxObject, Wall:FlxObject):Void{
@@ -207,27 +207,32 @@ class PlayState extends FlxState
 		
 	}
 
-	function Hit(Bullet:FlxObject, Player:FlxObject):Void {
+	function Hit(Bullet:FlxObject, player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
-		player.shootingEnabled=true;
+		player1.shootingEnabled=true;
 		player2.pHealth-=10;
 		healthdisplay2.text="Player 2: " + player2.pHealth;
 
 	}
-	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
+	function Hit2(Bullet:FlxObject, player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
 		player2.shootingEnabled=true;
-		player.pHealth-=10;
-		healthdisplay1.text="Player 1: " + player.pHealth;
+		player1.pHealth-=10;
+		healthdisplay1.text="Player 1: " + player1.pHealth;
 
 
 	}
+
+	function Asteroid_Collsion(asteroid:Asteroid, player:Player)
+		{
+			return;
+		}
 
 	function endGame(winnerNum:Int)
 	{
@@ -249,7 +254,7 @@ class PlayState extends FlxState
 
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
 
-		player.pHealth = 1;
+		player1.pHealth = 1;
 		player2.pHealth = 1;
 
 		new FlxTimer().start(5, function (timer)
