@@ -197,6 +197,12 @@ class PlayState extends FlxState
 		if(FlxG.keys.anyPressed(["DOWN"])){
 			player2.velocity.y= 100;
 		}
+
+		if (Math.abs(asteroid1.x) > 1200 || Math.abs(asteroid1.y) > 1200)
+			asteroid1.set_up();
+		if (Math.abs(asteroid2.x) > 1200 || Math.abs(asteroid2.y) > 1200)
+			asteroid2.set_up();
+
 		
 	}
 

@@ -31,6 +31,9 @@ class Asteroid extends FlxSprite
 		this.x = x;
 		this.y = y;
 
+        // Trends larger as game progresses
+        this.setGraphicSize(Math.round(this.width * (Math.random() + 1)), 0);
+
 		this.velocity.x = xVel;
 		this.velocity.y = yVel;
     }
