@@ -194,6 +194,12 @@ class PlayState extends FlxState
 		
 	}
 
+	function update_health_displays()
+	{
+		healthdisplay1.text="Player 1: " + player1.pHealth;
+		healthdisplay2.text="Player 2: " + player2.pHealth;
+	}
+
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
 		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
@@ -214,7 +220,7 @@ class PlayState extends FlxState
 		Bullet.visible=false;
 		player1.shootingEnabled=true;
 		player2.pHealth-=10;
-		healthdisplay2.text="Player 2: " + player2.pHealth;
+		update_health_displays();
 
 	}
 	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
@@ -224,14 +230,20 @@ class PlayState extends FlxState
 		Bullet.visible=false;
 		player2.shootingEnabled=true;
 		player1.pHealth-=10;
-		healthdisplay1.text="Player 1: " + player1.pHealth;
+		update_health_displays();
 
 
 	}
 
 	function Asteroid_Collsion(asteroid:Asteroid, player:Player)
 		{
-			return;
+			if (FlxG.overlap(asteroid, player))
+			{
+				asteroid.set_up();
+				FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
+				player.pHealth -= 20;
+				update_health_displays();
+			}
 		}
 
 	function endGame(winnerNum:Int)
@@ -247,7 +259,7 @@ class PlayState extends FlxState
 		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		player2Winner = new FlxText(0, "Player 2 Wins!");
-		player2Winner.screenCenter();
+		// player2Winner.screenCenter(); issue here
 		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
@@ -266,21 +278,7 @@ class PlayState extends FlxState
 	// TODO: Collision
 	public function spawn_asteroid(asteroid:Asteroid):Asteroid
 	{
-		var x = Math.random() * FlxG.width;
-		var y = Math.random() < 0.5 ? -100 : FlxG.height + 100;
-		if (x > FlxG.width / 2)
-			x *= -1;
-
-		var xVel = Math.random() * 50 + 1;
-		var yVel = Math.random() * 50 + 1;
-		if (y > 0)
-			yVel *= -1;
-
-		asteroid.x = x;
-		asteroid.y = y;
-
-		asteroid.velocity.x = xVel;
-		asteroid.velocity.y = yVel;
+		asteroid.set_up();
 
 		return asteroid;
 	}
