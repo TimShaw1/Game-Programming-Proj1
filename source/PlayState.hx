@@ -39,10 +39,13 @@ class PlayState extends FlxState
 		var asteroid1:Asteroid = new Asteroid();
 		var asteroid2:Asteroid = new Asteroid();
 
-
+		var background:FlxBackdrop = new FlxBackdrop("assets/images/background.png");
 
 	override public function create():Void
 	{
+
+		add(background);
+		
 		player = new Player(20,20, FlxColor.BLUE, 1);
  		add(player);
 		add(player.bullet);
@@ -52,15 +55,15 @@ class PlayState extends FlxState
 		add(player2.bullet);
 		
 		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player.pHealth);
-		healthdisplay1.setFormat(null,15, FlxColor.PINK,"left");
+		healthdisplay1.setFormat(null,15, FlxColor.WHITE,"left");
 		
 		
 		healthdisplay2 = new FlxText(0, 0, FlxG.width, "Player 2: " + player2.pHealth);
-		healthdisplay2.setFormat(null,15, FlxColor.BLUE,"right");
+		healthdisplay2.setFormat(null,15, FlxColor.WHITE,"right");
 
 		// Slow!
 		map = new FlxOgmoLoader("assets/ogmo/Level1.oel");
- 		mappingWalls = map.loadTilemap("assets/images/walls1.png", 32, 32, "wall");//just a placeholder need to add a nice wall
+ 		mappingWalls = map.loadTilemap("assets/images/walls.png", 32, 32, "wall");
  		mappingWalls.follow();
  		mappingWalls.setTileProperties(1, NONE);
  		mappingWalls.setTileProperties(2, ANY);
@@ -262,10 +265,10 @@ class PlayState extends FlxState
 		blankscreen.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 
 		player1Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 1 is the WINNER ");
-		player1Winner.setFormat(null, 50, FlxColor.RED, "center");
+		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 		
 		player2Winner = new FlxText(0, FlxG.height / 50, FlxG.width, "Player 2 is the WINNER ");
-		player2Winner.setFormat(null, 50, FlxColor.BLUE, "center");
+		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
 
