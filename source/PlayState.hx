@@ -240,7 +240,7 @@ class PlayState extends FlxState
 		Bullet.visible=false;
 		player.shootingEnabled=true;
 		player2.pHealth-=10;
-		healthdisplay2.text="CHARACTER1: " + player2.pHealth;
+		healthdisplay2.text="Player 2: " + player2.pHealth;
 
 	}
 	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
@@ -250,7 +250,7 @@ class PlayState extends FlxState
 		Bullet.visible=false;
 		player2.shootingEnabled=true;
 		player.pHealth-=10;
-		healthdisplay1.text="CHARACTER2: " + player.pHealth;
+		healthdisplay1.text="Player 1: " + player.pHealth;
 
 
 	}
