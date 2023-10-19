@@ -23,7 +23,7 @@ class MenuState extends FlxState
 		gameTitle = new FlxText(0,FlxG.height/4, FlxG.width, "CHARCTER1 VS CHARACTER2");
 		gameTitle.setFormat(null,30,FlxColor.CYAN, "center");
 		add(gameTitle);
-		//FlxG.sound.play("assets/sounds/sound1.wav",0.15,true); need to add a sound
+		FlxG.sound.play("assets/sounds/mainMenuMusic.wav", 0.15, true);
 		btnPlay= new FlxButton (280, 220, "Play", clickPlay);
 		add(btnPlay);
 
