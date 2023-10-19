@@ -63,7 +63,7 @@ class PlayState extends FlxState
 		healthdisplay2.setFormat(null,15, FlxColor.WHITE,"right");
 
 		// Slow!
-		map = new FlxOgmoLoader("assets/ogmo/Level1.oel");
+		map = new FlxOgmoLoader("assets/ogmo/Level2.oel");
  		mappingWalls = map.loadTilemap("assets/images/walls.png", 32, 32, "wall");
  		mappingWalls.follow();
  		mappingWalls.setTileProperties(1, NONE);
