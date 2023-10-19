@@ -98,7 +98,7 @@ class PlayState extends FlxState
  	{
 		var x:Int = Std.parseInt(entityData.get("x"));
 		var y:Int = Std.parseInt(entityData.get("y"));
-		if (entityName == "player1")
+		if (entityName == "player")
 		{
 			player1.x = x;
 			player1.y = y;
@@ -207,7 +207,7 @@ class PlayState extends FlxState
 		
 	}
 
-	function Hit(Bullet:FlxObject, player:FlxObject):Void {
+	function Hit(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
@@ -217,7 +217,7 @@ class PlayState extends FlxState
 		healthdisplay2.text="Player 2: " + player2.pHealth;
 
 	}
-	function Hit2(Bullet:FlxObject, player:FlxObject):Void {
+	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
