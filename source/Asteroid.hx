@@ -12,7 +12,7 @@ class Asteroid extends FlxSprite
 
         this.angularVelocity = xVel;
 
-        // this.loadGraphic("assets/images/asteroid.png");
+        this.loadGraphic("assets/images/asteroid.png");
     }
 
     // TODO: Random scaling
