@@ -313,19 +313,10 @@ class PlayState extends FlxState
 		return asteroid;
 	}
 
-	function onPowerUpCollision(player:FlxSprite, powerUp:PowerUp):Void {
+	function onPowerUpCollision(player:Player, powerUp:PowerUp):Void {
+		powerUp.onCollide(player);
 		powerUp.kill(); // remove powerup
-		// add health
-		var playerObj:Player = cast(player, Player);
-		if(playerObj.pHealth<100)
-		playerObj.pHealth += 10;  
-	
-		// upadte health
-		if(playerObj == this.player1) {
-			healthdisplay1.text = "Player 1: " + playerObj.pHealth;
-		} else {
-			healthdisplay2.text = "Player 2: " + playerObj.pHealth;
-		}
+		update_health_displays();
 		
 		spawnNewPowerUp();
 	}
@@ -334,9 +325,11 @@ class PlayState extends FlxState
 		var maxTries:Int = 50;
 		var tries:Int = 0;
 	
-		new FlxTimer().start(5, function (timer)
+		new FlxTimer().start(10, function (timer)
 		{
-				
+			// Hack to ensure sprite doesn't spawn on end screen
+			if (player1.pHealth == 1)
+				return;
 			
 			while (tries < maxTries) {
 				//random location
