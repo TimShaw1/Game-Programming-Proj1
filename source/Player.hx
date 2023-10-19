@@ -37,4 +37,22 @@ class Player extends FlxSprite {
 			this.facing = RIGHT;
 		}
 	}
+
+	public function shoot()
+		{
+			this.shootingEnabled=false;
+			
+			this.bullet.visible=true;
+			this.bullet.x = this.x+this.width/2;
+			this.bullet.y = this.y+this.height/2;
+			if(this.facing == RIGHT) {
+
+				this.bullet.velocity.x= 1000;	
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
+			}
+			else {
+				this.bullet.velocity.x= -1000;
+				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
+			}
+		}
 }
