@@ -135,6 +135,12 @@ class PlayState extends FlxState
 		FlxG.collide(player1.bullet, player2, Hit);
 		FlxG.collide(player2.bullet, player1, Hit2);
 
+		FlxG.collide(asteroid1, player1, Asteroid_Collsion);
+		FlxG.collide(asteroid2, player1, Asteroid_Collsion);
+
+		FlxG.collide(asteroid1, player2, Asteroid_Collsion);
+		FlxG.collide(asteroid2, player2, Asteroid_Collsion);
+
 		player1.velocity.x=0;
 		player1.velocity.y=0;
 		player2.velocity.x=0;
