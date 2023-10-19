@@ -18,6 +18,8 @@ import flixel.FlxG;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxTimer;
 
+import PowerUp;
+import flixel.group.FlxGroup;
 
 
 class PlayState extends FlxState
@@ -41,6 +43,9 @@ class PlayState extends FlxState
 		var asteroid2:Asteroid = new Asteroid();
 
 		var background:FlxBackdrop = new FlxBackdrop("assets/images/background.png");
+
+	        var powerUp:PowerUp;
+		var powerUps:FlxGroup = new FlxGroup();
 
 	override public function create():Void
 	{
@@ -92,6 +97,12 @@ class PlayState extends FlxState
 		super.create();
 
 		FlxG.sound.play("assets/sounds/backgroundMusic.wav", 0.05, true);
+
+		// PowerUp
+		var randomX:Float = Math.random() * FlxG.width;
+		var randomY:Float = Math.random() * FlxG.height;
+		powerUp = new PowerUp(50, 50);
+		add(powerUp);
 	}
 
 	function placeEntities(entityName:String, entityData:Xml):Void
@@ -140,6 +151,11 @@ class PlayState extends FlxState
 
 		FlxG.collide(asteroid1, player2, Asteroid_Collsion);
 		FlxG.collide(asteroid2, player2, Asteroid_Collsion);
+
+		FlxG.collide(player, powerUp, onPowerUpCollision);
+                FlxG.collide(player2, powerUp, onPowerUpCollision);
+		FlxG.collide(player, powerUps, onPowerUpCollision);
+                FlxG.collide(player2, powerUps, onPowerUpCollision);
 
 		player1.velocity.x=0;
 		player1.velocity.y=0;
@@ -293,6 +309,48 @@ class PlayState extends FlxState
 		asteroid.set_up();
 
 		return asteroid;
+	}
+
+	function onPowerUpCollision(player:FlxSprite, powerUp:PowerUp):Void {
+		powerUp.kill(); // removw powerup
+		// add health
+		var playerObj:Player = cast(player, Player);
+		if(playerObj.pHealth<100)
+		playerObj.pHealth += 10;  
+	
+		// upadte health
+		if(playerObj == this.player) {
+			healthdisplay1.text = "Player 1: " + playerObj.pHealth;
+		} else {
+			healthdisplay2.text = "Player 2: " + playerObj.pHealth;
+		}
+		
+		spawnNewPowerUp();
+	}
+
+	function spawnNewPowerUp():Void {
+		var maxTries:Int = 50;
+		var tries:Int = 0;
+	
+		while (tries < maxTries) {
+			//redom location
+			var tileX:Int = Math.floor(Math.random() * mappingWalls.widthInTiles);
+			var tileY:Int = Math.floor(Math.random() * mappingWalls.heightInTiles);
+	
+			// check if the loaction has the wall
+			if (mappingWalls.getTile(tileX, tileY) == 0) {
+			
+				var pixelX:Float = tileX * mappingWalls.tileWidth;
+				var pixelY:Float = tileY * mappingWalls.tileHeight;
+				var newPowerUp:PowerUp = new PowerUp(pixelX, pixelY);
+				add(newPowerUp);
+				powerUps.add(newPowerUp);
+				return; 
+			}
+	
+			tries++;
+		}
+
 	}
 }
 
