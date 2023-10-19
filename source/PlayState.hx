@@ -242,7 +242,7 @@ class PlayState extends FlxState
 		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		player2Winner = new FlxText(0, "Player 2 Wins!");
-		player1Winner.screenCenter();
+		player2Winner.screenCenter();
 		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
