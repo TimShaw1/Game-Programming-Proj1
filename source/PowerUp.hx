@@ -6,7 +6,7 @@ class PowerUp extends FlxSprite {
         super(x, y);
         this.loadGraphic("assets/images/heart.png");
         this.scale.x = 1.25;
-	this.scale.y = 1.25;
+	    this.scale.y = 1.25;
         this.updateHitbox();
     }
 

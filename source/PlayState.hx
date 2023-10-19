@@ -314,7 +314,7 @@ class PlayState extends FlxState
 	}
 
 	function onPowerUpCollision(player:FlxSprite, powerUp:PowerUp):Void {
-		powerUp.kill(); // removw powerup
+		powerUp.kill(); // remove powerup
 		// add health
 		var playerObj:Player = cast(player, Player);
 		if(playerObj.pHealth<100)
@@ -334,24 +334,29 @@ class PlayState extends FlxState
 		var maxTries:Int = 50;
 		var tries:Int = 0;
 	
-		while (tries < maxTries) {
-			//redom location
-			var tileX:Int = Math.floor(Math.random() * mappingWalls.widthInTiles);
-			var tileY:Int = Math.floor(Math.random() * mappingWalls.heightInTiles);
-	
-			// check if the loaction has the wall
-			if (mappingWalls.getTile(tileX, tileY) == 0) {
+		new FlxTimer().start(5, function (timer)
+		{
+				
 			
-				var pixelX:Float = tileX * mappingWalls.tileWidth;
-				var pixelY:Float = tileY * mappingWalls.tileHeight;
-				var newPowerUp:PowerUp = new PowerUp(pixelX, pixelY);
-				add(newPowerUp);
-				powerUps.add(newPowerUp);
-				return; 
-			}
+			while (tries < maxTries) {
+				//random location
+				var tileX:Int = Math.floor(Math.random() * mappingWalls.widthInTiles);
+				var tileY:Int = Math.floor(Math.random() * mappingWalls.heightInTiles);
 	
-			tries++;
-		}
+				// check if the loaction has the wall
+				if (mappingWalls.getTile(tileX, tileY) == 0) {
+					
+					var pixelX:Float = tileX * mappingWalls.tileWidth;
+					var pixelY:Float = tileY * mappingWalls.tileHeight;
+					var newPowerUp:PowerUp = new PowerUp(pixelX, pixelY);
+					add(newPowerUp);
+					powerUps.add(newPowerUp);
+					return; 
+				}
+	
+				tries++;
+			}
+		});
 
 	}
 }
