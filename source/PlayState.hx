@@ -5,6 +5,7 @@ package;
 import neko.Random;
 import flixel.FlxState;
 import flixel.addons.editors.tiled.TiledObjectLayer;
+import flixel.addons.display.FlxBackdrop;
 import flixel.FlxSprite;
 import flixel.addons.editors.ogmo.FlxOgmoLoader;
 import flixel.FlxObject;
