@@ -154,42 +154,11 @@ class PlayState extends FlxState
 		}
 
 		if(FlxG.keys.justReleased.ENTER && player2.shootingEnabled){
-			player2.shootingEnabled=false;
-			player2.bullet.visible=true;
-			player2.bullet.x = player2.x+player2.width/2;
-			player2.bullet.y = player2.y+player2.height/2;
-			var x = player2.x-player.x;
-			if (x < 0)
-			{
-				player2.bullet.velocity.x= 1000;	
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-				x=1;
-			}
-			else {
-				player2.bullet.velocity.x= -1000;
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-				x=-1;
-			}
+			player2.shoot();
 		}
 
 		if(FlxG.keys.justReleased.SPACE && player.shootingEnabled){
-			player.shootingEnabled=false;
-			
-			player.bullet.visible=true;
-			player.bullet.x = player.x+player.width/2;
-			player.bullet.y = player.y+player.height/2;
-			var x = player2.x-player.x;
-			if(x>0){
-
-				player.bullet.velocity.x= 1000;	
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-				x=-1;
-			}
-			else {
-				player.bullet.velocity.x= -1000;
-				FlxG.sound.play("assets/sounds/shoot.wav", 0.15, false);
-				x=1;
-			}
+			player.shoot();
 		}
 
 		if(FlxG.keys.anyPressed(["D"])){
