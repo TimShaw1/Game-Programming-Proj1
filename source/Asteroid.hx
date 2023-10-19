@@ -15,6 +15,7 @@ class Asteroid extends FlxSprite
         // this.loadGraphic("assets/images/asteroid.png");
     }
 
+    // TODO: Random scaling
     public function set_up()
     {
         var x = Math.random() * FlxG.width;
