@@ -31,7 +31,7 @@ class MenuState extends FlxState
 		
 		FlxG.sound.play("assets/sounds/mainMenuMusic.wav", 0.15, true);
 		
-		btnPlay = new FlxButton(300, 220, null, clickPlay);
+		btnPlay = new FlxButton(300, 240, null, clickPlay);
 		btnPlay.loadGraphic("assets/images/playButton.png", false);
 		btnPlay.scale.x = 4;
 		btnPlay.scale.y = 4;
