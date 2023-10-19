@@ -86,6 +86,8 @@ class PlayState extends FlxState
 		add(spawn_asteroid(asteroid2));
  	
 		super.create();
+
+		FlxG.sound.play("assets/sounds/backgroundMusic.wav", 0.05, true);
 	}
 
 	function placeEntities(entityName:String, entityData:Xml):Void
@@ -274,7 +276,7 @@ class PlayState extends FlxState
 		player.pHealth = 1;
 		player2.pHealth = 1;
 
-		new FlxTimer().start(2, function (timer)
+		new FlxTimer().start(5, function (timer)
 			{
 				FlxG.switchState(new MenuState());
 			});
