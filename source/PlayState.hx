@@ -2,7 +2,7 @@
 
 package;
 
-import neko.Random;
+//import neko.Random;
 import flixel.FlxState;
 import flixel.addons.editors.tiled.TiledObjectLayer;
 import flixel.addons.display.FlxBackdrop;
