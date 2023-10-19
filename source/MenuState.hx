@@ -5,12 +5,15 @@ import flixel.FlxG;
 import flixel.util.*;
 import flixel.ui.*;
 import flixel.text.FlxText;
+import flixel.addons.display.FlxBackdrop;
 
 class MenuState extends FlxState
 {
 	var gameTitle:flixel.text.FlxText;
 	var btnPlay:flixel.ui.FlxButton;
 	var developer:FlxText;
+
+	var background:FlxBackdrop = new FlxBackdrop("assets/images/background.png");
 
 	function clickPlay()
 	{
@@ -19,15 +22,20 @@ class MenuState extends FlxState
 
 	override public function create():Void
 	{
+		
 		FlxG.cameras.flash(FlxColor.BLACK, 3);
-		gameTitle = new FlxText(0,FlxG.height/4, FlxG.width, "CHARCTER1 VS CHARACTER2");
-		gameTitle.setFormat(null,30,FlxColor.CYAN, "center");
+		gameTitle = new FlxText(0, FlxG.height / 4, FlxG.width, "Space-Wars");
+		gameTitle.setFormat(null, 60, FlxColor.WHITE, "center");
+		add(background);
 		add(gameTitle);
+		
 		FlxG.sound.play("assets/sounds/mainMenuMusic.wav", 0.15, true);
-		btnPlay= new FlxButton (280, 220, "Play", clickPlay);
+		
+		btnPlay = new FlxButton(300, 220, null, clickPlay);
+		btnPlay.loadGraphic("assets/images/playButton.png", false);
+		btnPlay.scale.x = 4;
+		btnPlay.scale.y = 4;
 		add(btnPlay);
-
-	
 
 		super.create();
 	}
