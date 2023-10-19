@@ -283,15 +283,14 @@ class PlayState extends FlxState
 		blankscreen.loadGraphic("assets/images/background.png");
 
 		player1Winner = new FlxText(0, "Player 1 Wins!");
-		player1Winner.screenCenter();
 		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		player2Winner = new FlxText(0, "Player 2 Wins!");
-		// player2Winner.screenCenter(); issue here
 		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
-
+		player1Winner.screenCenter();
+		player2Winner.screenCenter();
 		winnerNum == 1 ? add(player1Winner) : add(player2Winner);
 
 		player1.pHealth = 1;
