@@ -24,7 +24,7 @@ class MenuState extends FlxState
 	{
 		
 		FlxG.cameras.flash(FlxColor.BLACK, 3);
-		gameTitle = new FlxText(0, FlxG.height / 4, FlxG.width, "Space-Wars");
+		gameTitle = new FlxText(0, FlxG.height / 4, FlxG.width, "Spaceship-Wars");
 		gameTitle.setFormat(null, 60, FlxColor.WHITE, "center");
 		add(background);
 		add(gameTitle);
