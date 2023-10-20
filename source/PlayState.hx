@@ -39,8 +39,8 @@ class PlayState extends FlxState
 		var bottomWall:FlxSprite;
 		var blankscreen:FlxSprite;
 
-		var asteroid1:Asteroid;
-		var asteroid2:Asteroid;
+		var asteroid1:Asteroid = new Asteroid();
+		var asteroid2:Asteroid = new Asteroid();
 
 		var background:FlxBackdrop = new FlxBackdrop("assets/images/background.png");
 
@@ -50,18 +50,15 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 
-		asteroid1 = new Asteroid(-100, -100, 0, 0);
-		asteroid2 = new Asteroid(-100, -100, 0, 0);
-
 		add(background);
 		
 		// Create player 1
-		player1 = new Player(20,20, FlxColor.BLUE, 1);
+		player1 = new Player(20,20, FlxColor.PINK, 1);
  		add(player1);
 		add(player1.bullet);
 
 		// Create player 2
- 		player2 = new Player(580,50, FlxColor.PINK, 2);
+ 		player2 = new Player(580,50, FlxColor.BLUE, 2);
  		add(player2);
 		add(player2.bullet);
 		
