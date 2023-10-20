@@ -319,6 +319,7 @@ class PlayState extends FlxState
 	}
 
 	function onPowerUpCollision(player:Player, powerUp:PowerUp):Void {
+		FlxG.sound.play("assets/sounds/powerUp.wav", 0.10, false);
 		powerUp.onCollide(player);
 		powerUp.kill(); // remove powerup
 		update_health_displays();
