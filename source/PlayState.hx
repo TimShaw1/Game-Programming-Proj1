@@ -50,8 +50,8 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 
-		asteroid1 = new Asteroid();
-		asteroid2 = new Asteroid();
+		asteroid1 = new Asteroid(-100, -100, 0, 0);
+		asteroid2 = new Asteroid(-100, -100, 0, 0);
 
 		add(background);
 		
