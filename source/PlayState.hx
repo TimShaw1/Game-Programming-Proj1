@@ -289,7 +289,6 @@ class PlayState extends FlxState
 
 	function endGame(winnerNum:Int)
 	{
-		trace("Ended game");
 
 		blankscreen = new FlxSprite(0, 0);
 
@@ -331,14 +330,19 @@ class PlayState extends FlxState
 		spawnNewPowerUp();
 	}
 
+	// Hacky way to check if game is over
+	function is_game_over() {
+		return player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0
+	}
+
 	function spawnNewPowerUp():Void {
 		var maxTries:Int = 50;
 		var tries:Int = 0;
 	
 		new FlxTimer().start(10, function (timer)
 		{
-			// Hack to ensure sprite doesn't spawn on end screen
-			if (player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0)
+			// Ensure sprite doesn't spawn on end screen
+			if (is_game_over())
 				return;
 			
 			while (tries < maxTries) {
