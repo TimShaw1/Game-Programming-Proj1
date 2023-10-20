@@ -62,6 +62,7 @@ class PlayState extends FlxState
  		add(player2);
 		add(player2.bullet);
 		
+		// add health displays
 		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player1.pHealth);
 		healthdisplay1.setFormat(null,15, FlxColor.WHITE,"left");
 		
@@ -69,7 +70,7 @@ class PlayState extends FlxState
 		healthdisplay2 = new FlxText(0, 0, FlxG.width, "Player 2: " + player2.pHealth);
 		healthdisplay2.setFormat(null,15, FlxColor.WHITE,"right");
 
-		// Slow!
+		// Load map - this can be slow
 		map = new FlxOgmoLoader('assets/ogmo/Level${Math.round((Math.random() + 1))}.oel');
  		mappingWalls = map.loadTilemap("assets/images/walls.png", 32, 32, "wall");
  		mappingWalls.follow();
@@ -78,10 +79,9 @@ class PlayState extends FlxState
  		add(mappingWalls);
 		
 
- 		//FlxG.camera.follow(player, TOPDOWN, 1);
  		map.loadEntities(placeEntities, "entities");
 
-
+		// Create walls
 		leftWall=new Wall(0,0,32,480);
 		topWall=new Wall(0,0,640,32);
 		add(leftWall);
@@ -90,19 +90,21 @@ class PlayState extends FlxState
 		bottomWall=new Wall(0,448,640,32);
 		add(rightWall);
 		add(bottomWall); 
+
+		// add health displays after walls
 		add(healthdisplay2);
 		add(healthdisplay1);
 
+		// Spawn 2 asteroids and add them
 		add(spawn_asteroid(asteroid1));
 		add(spawn_asteroid(asteroid2));
  	
 		super.create();
 
+		// Start bg music
 		FlxG.sound.play("assets/sounds/backgroundMusic.wav", 0.05, true);
 
 		// PowerUp
-		var randomX:Float = Math.random() * FlxG.width;
-		var randomY:Float = Math.random() * FlxG.height;
 		powerUp = new PowerUp(50, 50);
 		add(powerUp);
 	}
@@ -121,44 +123,53 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+		// player1 wall collisions
 		FlxG.collide(player1,mappingWalls);
 		FlxG.collide(player1,leftWall);
 		FlxG.collide(player1,rightWall);
 		FlxG.collide(player1,topWall);
 		FlxG.collide(player1,bottomWall);
 
+		// player1 bullet collisions
 		FlxG.collide(player1.bullet,mappingWalls, BWall);
 		FlxG.collide(player1.bullet,leftWall, BWall);
 		FlxG.collide(player1.bullet,rightWall, BWall);
 		FlxG.collide(player1.bullet,topWall, BWall);
 		FlxG.collide(player1.bullet,bottomWall, BWall);
 
+		// player2 wall collisions
 		FlxG.collide(player2,mappingWalls);
 		FlxG.collide(player2,leftWall);
 		FlxG.collide(player2,rightWall);
 		FlxG.collide(player2,topWall);
 		FlxG.collide(player2,bottomWall);
 
+		// player2 bullet collisions
 		FlxG.collide(player2.bullet,mappingWalls, BWall2);
 		FlxG.collide(player2.bullet,leftWall, BWall2);
 		FlxG.collide(player2.bullet,rightWall, BWall2);
 		FlxG.collide(player2.bullet,topWall, BWall2);
 		FlxG.collide(player2.bullet,bottomWall, BWall2);
 
+		// damage collisions
 		FlxG.collide(player1.bullet, player2, Hit);
 		FlxG.collide(player2.bullet, player1, Hit2);
 
+		// asteriod collisions
 		FlxG.collide(asteroid1, player1, Asteroid_Collsion);
 		FlxG.collide(asteroid2, player1, Asteroid_Collsion);
 
 		FlxG.collide(asteroid1, player2, Asteroid_Collsion);
 		FlxG.collide(asteroid2, player2, Asteroid_Collsion);
 
+		// powerup collisions
 		FlxG.collide(player1, powerUp, onPowerUpCollision);
-                FlxG.collide(player2, powerUp, onPowerUpCollision);
+        FlxG.collide(player2, powerUp, onPowerUpCollision);
 		FlxG.collide(player1, powerUps, onPowerUpCollision);
-                FlxG.collide(player2, powerUps, onPowerUpCollision);
+        FlxG.collide(player2, powerUps, onPowerUpCollision);
 
+		// reset velocities
 		player1.velocity.x=0;
 		player1.velocity.y=0;
 		player2.velocity.x=0;
@@ -171,12 +182,12 @@ class PlayState extends FlxState
 		if (player2.x < 0 || player2.x > FlxG.width)
 			player2.pHealth = -10;
 
+		// End game if a player has died
 		if (player2.pHealth<=0 )
 		{
 			FlxG.sound.play("assets/sounds/explosion.wav", 0.15, false);
 			endGame(1);
 		}
-
 
 		if (player1.pHealth<=0 )
 		{
@@ -184,6 +195,8 @@ class PlayState extends FlxState
 			endGame(2);	
 		}
 
+
+		// Shooting
 		if(FlxG.keys.justReleased.ENTER && player2.shootingEnabled){
 			player2.shoot();
 		}
@@ -192,6 +205,7 @@ class PlayState extends FlxState
 			player1.shoot();
 		}
 
+		// player1 movement
 		if(FlxG.keys.anyPressed(["D"])){
 			player1.apply_velocity(100, 0);
 			player1.facing = RIGHT;
@@ -207,6 +221,8 @@ class PlayState extends FlxState
 		if(FlxG.keys.anyPressed(["S"])){
 			player1.apply_velocity(0, 100);
 		}
+
+		// player2 movement
 		if(FlxG.keys.anyPressed(["RIGHT"])){
 			player2.apply_velocity(100, 0);
 			player2.facing = RIGHT;
@@ -223,6 +239,7 @@ class PlayState extends FlxState
 			player2.apply_velocity(0, 100);
 		}
 
+		// Reset asteroids if they go too far off screen
 		if (Math.abs(asteroid1.x) > 1200 || Math.abs(asteroid1.y) > 1200)
 			asteroid1.set_up();
 		if (Math.abs(asteroid2.x) > 1200 || Math.abs(asteroid2.y) > 1200)
@@ -231,18 +248,31 @@ class PlayState extends FlxState
 		
 	}
 
+	/**
+	 * Utility function to update the displayed health on the top of the screen
+	 */
 	function update_health_displays()
 	{
 		healthdisplay1.text="Player 1: " + player1.pHealth;
 		healthdisplay2.text="Player 2: " + player2.pHealth;
 	}
 
+	/**
+	 * Player1's bullet hit a wall
+	 * @param Bullet 
+	 * @param Wall 
+	 */
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
 		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
 		player1.shootingEnabled=true;
 	}
 
+	/**
+	 * Player2's bullet hit a wall
+	 * @param Bullet 
+	 * @param Wall 
+	 */
 	function BWall2(Bullet:FlxObject, Wall:FlxObject):Void{
 		FlxG.sound.play("assets/sounds/collision.wav", 0.10, false);
 		Bullet.visible=false;
@@ -250,6 +280,11 @@ class PlayState extends FlxState
 		
 	}
 
+	/**
+	 * Called when player2 is hit with player1's bullet. Damages player2 and plays a sound.
+	 * @param Bullet 
+	 * @param Player 
+	 */
 	function Hit(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
@@ -262,6 +297,12 @@ class PlayState extends FlxState
 		update_health_displays();
 
 	}
+
+	/**
+	 * Called when player1 is hit with player2's bullet. Damages player1 and plays a sound.
+	 * @param Bullet 
+	 * @param Player 
+	 */
 	function Hit2(Bullet:FlxObject, Player:FlxObject):Void {
 		if (!Bullet.visible)
 			return;
@@ -276,6 +317,11 @@ class PlayState extends FlxState
 
 	}
 
+	/**
+	 * Defines behaviour when a player collides with an asteroid
+	 * @param asteroid 
+	 * @param player 
+	 */
 	function Asteroid_Collsion(asteroid:Asteroid, player:Player)
 		{
 			if (FlxG.overlap(asteroid, player))
@@ -287,6 +333,10 @@ class PlayState extends FlxState
 			}
 		}
 
+	/**
+	 * Called to end the game. Shows the end screen.
+	 * @param winnerNum Which player won the game
+	 */
 	function endGame(winnerNum:Int)
 	{
 
@@ -308,12 +358,18 @@ class PlayState extends FlxState
 		player1.pHealth = 1;
 		player2.pHealth = 1;
 
+		// Show end screen for 5 seconds, then go back to menu
 		new FlxTimer().start(5, function (timer)
 			{
 				FlxG.switchState(new MenuState());
 			});
 	}
 
+	/**
+	 * Spawns an asteroid
+	 * @param asteroid which asteroid to spawn
+	 * @return Asteroid
+	 */
 	public function spawn_asteroid(asteroid:Asteroid):Asteroid
 	{
 		asteroid.set_up();
@@ -321,6 +377,11 @@ class PlayState extends FlxState
 		return asteroid;
 	}
 
+	/**
+	 * Called when a player collides with a powerup. Applies the powerup's effect.
+	 * @param player the player who collided with the powerup
+	 * @param powerUp the powerup that was collided with
+	 */
 	function onPowerUpCollision(player:Player, powerUp:PowerUp):Void {
 		FlxG.sound.play("assets/sounds/powerUp.wav", 0.10, false);
 		powerUp.onCollide(player);
@@ -331,7 +392,7 @@ class PlayState extends FlxState
 	}
 
 	// Hacky way to check if game is over
-	function is_game_over() {
+	function is_game_over():Bool {
 		return (player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0);
 	}
 
