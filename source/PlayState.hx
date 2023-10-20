@@ -62,11 +62,11 @@ class PlayState extends FlxState
  		add(player2);
 		add(player2.bullet);
 		
-		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Player 1: " + player1.pHealth);
+		healthdisplay1 = new FlxText(0, 0, FlxG.width, "Electroswift: " + player1.pHealth);
 		healthdisplay1.setFormat(null,15, FlxColor.WHITE,"left");
 		
 		
-		healthdisplay2 = new FlxText(0, 0, FlxG.width, "Player 2: " + player2.pHealth);
+		healthdisplay2 = new FlxText(0, 0, FlxG.width, "Thunderblaze: " + player2.pHealth);
 		healthdisplay2.setFormat(null,15, FlxColor.WHITE,"right");
 
 		// Slow!
@@ -233,8 +233,8 @@ class PlayState extends FlxState
 
 	function update_health_displays()
 	{
-		healthdisplay1.text="Player 1: " + player1.pHealth;
-		healthdisplay2.text="Player 2: " + player2.pHealth;
+		healthdisplay1.text="Electroswift: " + player1.pHealth;
+		healthdisplay2.text="Thunderblaze: " + player2.pHealth;
 	}
 
 	function BWall(Bullet:FlxObject, Wall:FlxObject):Void{
@@ -294,10 +294,10 @@ class PlayState extends FlxState
 
 		blankscreen.loadGraphic("assets/images/background.png");
 
-		player1Winner = new FlxText(0, "Player 1 Wins!");
+		player1Winner = new FlxText(0, "Electroswift Wins!");
 		player1Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
-		player2Winner = new FlxText(0, "Player 2 Wins!");
+		player2Winner = new FlxText(0, "Thunderblaze Wins!");
 		player2Winner.setFormat(null, 50, FlxColor.WHITE, "center");
 
 		add(blankscreen);
