@@ -290,6 +290,8 @@ class PlayState extends FlxState
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
+
+		// hide bullet
 		Bullet.x = -1000;
 		Bullet.y = -1000;
 		player1.shootingEnabled=true;
@@ -308,6 +310,8 @@ class PlayState extends FlxState
 			return;
 		FlxG.sound.play("assets/sounds/hit.wav", 0.10, false);
 		Bullet.visible=false;
+
+		// hide bullet
 		Bullet.x = -1000;
 		Bullet.y = -1000;
 		player2.shootingEnabled=true;
