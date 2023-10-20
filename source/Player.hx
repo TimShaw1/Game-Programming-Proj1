@@ -28,9 +28,11 @@ class Player extends FlxSprite {
 
 		this.allowCollisions = ANY;
 
+		// Flip player sprite when switching directions
 		this.setFacingFlip(RIGHT, false, false);
 		this.setFacingFlip(LEFT, true, false);
 
+		// Set facing direction
 		if (playerNum == 2)
 		{
 			this.facing = LEFT;
@@ -41,7 +43,12 @@ class Player extends FlxSprite {
 		}
 	}
 
-	public function apply_velocity(xVel, yVel)
+	/**
+	 * Handles player velocity assignment
+	 * @param xVel x velocity
+	 * @param yVel y velocity
+	 */
+	public function apply_velocity(xVel:Float, yVel:Float)
 	{
 		if (xVel != 0)
 			this.velocity.x = xVel * speed;
@@ -49,6 +56,9 @@ class Player extends FlxSprite {
 			this.velocity.y = yVel * speed;
 	}
 
+	/**
+	 * Fires a bullet from the player's position in the direction it is facing
+	 */
 	public function shoot()
 	{
 		this.shootingEnabled=false;
