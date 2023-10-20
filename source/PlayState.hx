@@ -332,7 +332,7 @@ class PlayState extends FlxState
 
 	// Hacky way to check if game is over
 	function is_game_over() {
-		return player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0
+		return (player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0);
 	}
 
 	function spawnNewPowerUp():Void {
