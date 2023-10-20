@@ -164,6 +164,13 @@ class PlayState extends FlxState
 		player2.velocity.x=0;
 		player2.velocity.y=0;
 
+		// Catch out-of-bounds players
+		if (player1.x < 0 || player1.x > FlxG.width)
+			player1.pHealth = -10;
+
+		if (player2.x < 0 || player2.x > FlxG.width)
+			player2.pHealth = -10;
+
 		if (player2.pHealth<=0 )
 		{
 			FlxG.sound.play("assets/sounds/explosion.wav", 0.15, false);
@@ -331,7 +338,7 @@ class PlayState extends FlxState
 		new FlxTimer().start(10, function (timer)
 		{
 			// Hack to ensure sprite doesn't spawn on end screen
-			if (player1.pHealth == 1)
+			if (player1.pHealth == 1 || player1.pHealth <= 0 || player2.pHealth <= 0)
 				return;
 			
 			while (tries < maxTries) {
