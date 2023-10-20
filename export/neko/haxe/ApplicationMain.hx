@@ -38,7 +38,7 @@ class ApplicationMain
 		app.meta["build"] = "187";
 		app.meta["company"] = "HaxeFlixel";
 		app.meta["file"] = "TheGame";
-		app.meta["name"] = "Space-Wars";
+		app.meta["name"] = "Spaceship-Wars";
 		app.meta["packageName"] = "com.example.myapp";
 		app.meta["version"] = "0.0.1";
 
@@ -60,7 +60,7 @@ class ApplicationMain
 			minimized: false,
 			parameters: {},
 			resizable: true,
-			title: "Space-Wars",
+			title: "Spaceship-Wars",
 			width: 640,
 			x: null,
 			y: null,
