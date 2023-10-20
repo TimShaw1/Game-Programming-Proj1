@@ -7,8 +7,11 @@ class PowerUp extends FlxSprite {
 
     public function new(x:Float, y:Float) {
         super(x, y);
+
+        // Random type
         this.powerType = Math.round((Math.random() + 1));
 
+        // Assign sprite based on powerup type
         if (powerType == 1)
         {
             this.loadGraphic("assets/images/heart.png");
@@ -22,16 +25,23 @@ class PowerUp extends FlxSprite {
         }
     }
 
+    /**
+     * Called when a player collides with a powerup. Applies the effect on the player.
+     * @param player the player to apply the effect onto
+     */
     public function onCollide(player:Player) {
 
+        // Health type
         if (powerType == 1)
         {
             // add health
             if(player.pHealth<100)
                 player.pHealth += 10;  
         }
+        // Speed type
         else 
         {
+            // Double speed for 5 seconds, then reset
             player.speed = 2;
             new FlxTimer().start(5, function (timer)
             {
