@@ -18,7 +18,10 @@ class PowerUp extends FlxSprite {
         }
         else
         {
-            this.loadGraphic("assets/images/speedIcon.png");
+            this.loadGraphic("assets/images/speedboost.png");
+			this.scale.x = 1.25;
+			this.scale.y = 1.25;
+			this.updateHitbox();
         }
     }
 
