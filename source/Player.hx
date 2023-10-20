@@ -10,7 +10,7 @@ class Player extends FlxSprite {
 	public var shootingEnabled:Bool;
 	public var speed = 1;
 
-	public function new(x:Float = 0, y:Float = 0, color:FlxColor = FlxColor.BLUE, playerNum:Int = 0) {
+	public function new(x:Float = 0, y:Float = 0, color:FlxColor = FlxColor.WHITE, playerNum:Int = 0) {
 		super(x, y);
 
 		// Dynamically load character sprite
@@ -22,7 +22,7 @@ class Player extends FlxSprite {
 		// Set player attributes
 		pHealth = 100;
 		bullet = new FlxSprite(FlxG.width / 2 - 5, FlxG.height - 30);
-		bullet.makeGraphic(9, 2, FlxColor.WHITE, true);
+		bullet.makeGraphic(9, 2, color, true);
 		bullet.visible = false;
 		shootingEnabled = true;
 
